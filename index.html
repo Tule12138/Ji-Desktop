@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>桌宠动画</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: transparent; /* 透明背景 */
+    }
+    #pet {
+      position: absolute;
+      left: 100px;
+      top: 100px;
+      width: 50px; /* 修改桌宠图片的宽度 */
+      height: auto; /* 自动调整高度以保持图片比例 */
+      object-fit: contain; /* 保持比例不变并适应容器 */
+      -webkit-app-region: drag; /* 允许窗口拖动 */
+      cursor: pointer;     /* 鼠标样式为指针 */
+    }
+  </style>
+</head>
+<body>
+  <!-- 动态切换图片的桌宠 -->
+  <img id="pet" src="./Frames/Frame_1.png'" alt="姬">
+
+  <script>
+    // 图片帧列表，确保路径正确
+    const frames = [
+      './Frames/Frame_1.png',
+      './Frames/Frame_1.png',
+      './Frames/Frame_1.png',
+      './Frames/Frame_1.png',
+      './Frames/Frame_2.7.png',
+      './Frames/Frame_2.7.png',
+      './Frames/Frame_2.7.png',
+      './Frames/Frame_3.9.png',
+      './Frames/Frame_3.9.png',
+      './Frames/Frame_4.10.png',
+      './Frames/Frame_4.10.png',
+      './Frames/Frame_4.10.png',
+      './Frames/Frame_4.10.png',
+      './Frames/Frame_4.10.png',
+      './Frames/Frame_5.11.png',
+      './Frames/Frame_5.11.png',
+      './Frames/Frame_5.11.png'
+    ];
+    let frameIndex = 0; // 当前帧索引
+    const pet = document.getElementById('pet');
+
+    let isDragging = false; // 是否正在拖拽
+    let offsetX = 0;        // 鼠标与桌宠左上角的水平偏移
+    let offsetY = 0;        // 鼠标与桌宠左上角的垂直偏移
+
+    // 当按下鼠标时，开始拖拽
+    pet.addEventListener('mousedown', (e) => {
+      isDragging = true;  // 启动拖拽模式
+      offsetX = e.clientX - pet.offsetLeft; // 计算水平偏移
+      offsetY = e.clientY - pet.offsetTop;  // 计算垂直偏移
+      pet.style.cursor = 'grabbing';         // 更改鼠标为抓取状态
+    });
+
+    // 当移动鼠标时，更新桌宠位置
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        // 更新桌宠的位置
+        pet.style.left = (e.clientX - offsetX) + 'px';
+        pet.style.top = (e.clientY - offsetY) + 'px';
+      }
+    });
+
+    // 当松开鼠标时，结束拖拽
+    
+    document.addEventListener('mouseup', () => {
+      isDragging = false;  停止拖拽
+      pet.style.cursor = 'pointer';   恢复鼠标为指针状态
+    });
+
+    // 设置帧动画，切换速度（单位：毫秒）
+    const frameInterval = 60; // 每 100ms 切换一帧
+
+    setInterval(() => {
+      frameIndex = (frameIndex + 1) % frames.length; // 循环播放
+      pet.src = frames[frameIndex]; // 切换图片
+    }, frameInterval);
+  </script>
+</body>
+</html>
